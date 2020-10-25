@@ -12,30 +12,30 @@ logger.setLevel(logging.INFO)
 def handler(event, context):
     dynamodb = boto3.resource("dynamodb")
     
-    MEAL_TABLE = os.getenv(MEAL_TABLE)
-    table = dynamodb.Table(MEAL_TABLE)
-
-    data = event['body']
+    DYNAMODB_TABLE = os.getenv('MEAL_TABLE')
+    table = dynamodb.Table(DYNAMODB_TABLE)
 
     try:
+        data = {
+            "meal": event["meal"],
+            "ingredients": event["ingredients"]
+        }
+
         table.put_item(
-            Item={
-                'meal': event["Meal"]
+            Item=data
         )
-     
 
-    response =  dynamodb
+        logging.info("meal: {}, ingredients: {}".format(data["meal"], data["ingredients"]))
+        logging.info({"data": data})
 
-    
+        return_status = 200
+        return_body = {"message": "{} successfully added.".format(data["meal"])}
+    except KeyError as e:
+        logging.error(e)
+        return_status = 400
+        return_body = {"message": "missing data"}
 
-
-    # Table already created. Get the Table and create an item
-
-
-    logger.info("Creating table")
-
-    print('test')
-
-
-
-handler('test','sds')
+    return {
+        "statusCode": return_status,
+        "body": return_body
+    }
