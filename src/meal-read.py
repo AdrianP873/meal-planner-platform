@@ -22,6 +22,7 @@ def handler(event, context):
         Select='ALL_ATTRIBUTES',
     )
 
+    logging.info("Scanning dynamodb for all meals")
     return_status = 200
 
     return {
