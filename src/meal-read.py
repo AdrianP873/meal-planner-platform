@@ -11,22 +11,26 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 def handler(event, context):
-    """ Handler function to process GET requests for meals """
     dynamodb = boto3.resource("dynamodb")
     
     DYNAMODB_TABLE = os.getenv('MEAL_TABLE')
     meal_table = dynamodb.Table(DYNAMODB_TABLE)
 
-    # Scan all items in database
     meals = meal_table.scan(
         Select='ALL_ATTRIBUTES',
     )
 
-    logging.info("Scanning dynamodb for all meals")
     return_status = 200
+    return_body = meals["Items"]
 
     return {
         "statusCode": return_status,
-        "body": meals["Items"]
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET',
+            'Content-Type': 'application/json'
+        },
+        "body": json.dumps(return_body)
     }
-
+    
