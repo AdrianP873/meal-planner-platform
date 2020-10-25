@@ -13,7 +13,7 @@ def handler(event, context):
     dynamodb = boto3.resource("dynamodb")
     
     DYNAMODB_TABLE = os.getenv('MEAL_TABLE')
-    table = dynamodb.Table(DYNAMODB_TABLE)
+    meal_table = dynamodb.Table(DYNAMODB_TABLE)
 
     try:
         data = {
@@ -21,7 +21,7 @@ def handler(event, context):
             "ingredients": event["ingredients"]
         }
 
-        table.put_item(
+        meal_table.put_item(
             Item=data
         )
 
