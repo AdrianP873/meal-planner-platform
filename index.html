@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meal Planner</title>
+</head>
+<body>
+    <script>
+        const url = "<API Gateway URL>"
+    
+        fetch(url).then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            appendData(data);
+        })
+        .catch(function (err) {
+            console.log("error: " + err);
+        });
+    
+        function appendData(data) {
+            var mainContainer = document.getElementById("meals")
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = "<pre>" + "Meal: " + data[i].meal  + "<br />" + " Ingredients: " + Object.keys(data[i].ingredients) +  ": " + Object.values(data[i].ingredients) + "</pre>";                
+                mainContainer.appendChild(div);
+            }
+        }   
+    </script>
+    <h1>Meals</h1>
+    <div id="meals"></div>
+</body>
+</html>
