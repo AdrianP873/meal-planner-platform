@@ -5,7 +5,9 @@
 </head>
 <body>
     <script>
-        const url = "<API Gateway URL>"
+        // GET request to API
+        
+        const url = "<APIGateway URL>"
     
         fetch(url).then(function (response) {
             return response.json();
@@ -24,9 +26,85 @@
                 div.innerHTML = "<pre>" + "Meal: " + data[i].meal  + "<br />" + " Ingredients: " + Object.keys(data[i].ingredients) +  ": " + Object.values(data[i].ingredients) + "</pre>";                
                 mainContainer.appendChild(div);
             }
-        }   
+        }  
+
+        
+        function addInput() {
+            // Dynamically adds text inputs depending on how many ingredients there are
+            var getNumber = document.getElementById("ingredients").value;
+            if (getNumber < 16) {
+                var number = getNumber;
+            } else {
+                alert('Too many ingredients');
+            }
+            var container = document.getElementById("container")
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (i=0;i<number;i++) {
+                container.appendChild(document.createTextNode("Ingredient " + (i+1) + ": "));
+                var ingredientInput = document.createElement("input");
+                var quantityInput = document.createElement("input");
+                ingredientInput.type = "text"
+                quantityInput.type = "text"
+                container.appendChild(ingredientInput);
+                container.appendChild(document.createTextNode("  Quantity: "));
+                container.appendChild(quantityInput);
+                container.appendChild(document.createElement("br"));
+            }
+        }
+
     </script>
+    <script>
+        // POST to /meals API
+        function testData() {
+            event.preventDefault();
+            let meal_name = document.getElementById("mealName").value;
+            console.log(meal_name)
+
+            let meal_data = { meal: meal_name}
+            print_meal = JSON.stringify(meal_data);
+            console.log(print_meal)
+
+        }
+    /*
+        const data = {
+            "meal": "cheese toasty",
+            "ingredients": {
+                "sausage": "3",
+                "ham": "300",
+                "cheese": "120"
+            }
+        }
+        // Use Fetch API to POST data to RestAPI.
+       
+        fetch(url, {
+            method: "post",
+            body: JSON.stringify(data)
+            });
+        */
+    </script>
+  
     <h1>Meals</h1>
+    <form id="myForm" onsubmit="testData()">
+        <div>
+            <label for="addMeal">Meal:</label>
+            <input type="text" name="mealName" id="mealName">
+        </div>
+        <div>
+            <label for="ingredients">Ingredients:</label><br>
+            <label for="item">Item:</label><br>
+            <label for="quantity">Quantity:</label>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+
     <div id="meals"></div>
+    How many ingredients?<br>
+    <input type="text" id="ingredients" name="ingredients" <br />
+    <a href="#" id="filldetails" onclick="addInput()">Add Ingredients (max 15)</a>
+    <div id="container"/>
+
 </body>
 </html>
