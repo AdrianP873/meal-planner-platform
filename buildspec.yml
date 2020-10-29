@@ -1,0 +1,10 @@
+version: 0.2
+
+env:
+  variables:
+    TEST: "Hello world"
+
+phases:
+  install:
+   commands:
+     - echo $TEST
