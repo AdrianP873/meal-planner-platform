@@ -14,13 +14,16 @@ export interface EnvProps {
 }
 
 export class PipelineAPI extends cdk.Stack {
-    
     // Creates the Pipeline for the meal planner API. The pipeline provisions infrastructure with SAM.
     constructor(scope: cdk.Construct, id: string, props?: EnvProps) {
         super(scope, id);
-
-
         
+       if (props?.prod == true) {
+           var prefix = 'prod-'
+       } else {
+           var prefix = 'staging-'
+       };
+
         const sourceOutput = new codepipeline.Artifact();
         const codestarConnection = new CfnConnection(this, "githubConnection", {
             connectionName: "meal-planner-github-connector",
@@ -40,7 +43,7 @@ export class PipelineAPI extends cdk.Stack {
      
         // Build Project
         const infraBuildProject = new PipelineProject(this, "InfraBuild", {
-            projectName: "Meal_Planner_API",
+            projectName: prefix + "Meal_Planner_API",
             buildSpec: BuildSpec.fromSourceFilename("buildspec.yml")
             });
 
