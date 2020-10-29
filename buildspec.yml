@@ -8,3 +8,4 @@ phases:
   install:
    commands:
      - echo $TEST
+     - echo "Second test"
