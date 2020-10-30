@@ -32,7 +32,7 @@ Resources:
       Handler: meal-create.handler
       Runtime: python3.7
       FunctionName: !Sub ${env}-meal-planner-create
-      CodeUri: src/api/hello.py
+      CodeUri: ./src/api/hello.py
       Events:
         ApiEvent:
           Type: Api
@@ -48,7 +48,7 @@ Resources:
       Handler: meal-read.handler
       Runtime: python3.7
       FunctionName: !Sub ${env}-meal-planner-create
-      CodeUri: src/api/hello.py
+      CodeUri: ./src/api/hello.py
       Events:
         ApiEvent:
           Type: Api
