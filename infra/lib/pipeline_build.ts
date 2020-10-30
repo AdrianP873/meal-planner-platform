@@ -4,6 +4,8 @@ import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions'
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as sm from "@aws-cdk/aws-secretsmanager";
 import * as codestarconnections from '@aws-cdk/aws-codestarconnections';
+import { S3DeployAction } from '@aws-cdk/aws-codepipeline-actions';
+import * as s3 from '@aws-cdk/aws-s3';
 
 
 export interface EnvProps {
@@ -73,14 +75,17 @@ export class PipelineAPI extends cdk.Stack {
         const executeSamChangeSetAction = new codepipeline_actions.CloudFormationExecuteChangeSetAction({
             actionName: env + "_Execute_SAM_Changeset",
             changeSetName: env + "-meal-planner-api-changeset",
-            stackName: "-meal-planner-api",
+            stackName: env + "-meal-planner-api",
 
         })
+
+        const myBucket = new s3.Bucket(this, 'artifactBucket', {versioned: false})
 
         // Build the full pipeline
         const pipeline = new codepipeline.Pipeline(this, "InfraPipeline", {
             pipelineName: this.node.tryGetContext("env") + "_InfraPipeline",
-            crossAccountKeys: false
+            crossAccountKeys: false,
+            artifactBucket: myBucket
         });
 
         pipeline.addStage({
