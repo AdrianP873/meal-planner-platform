@@ -5,7 +5,6 @@ Retrieve all meals from database.
 import json
 import logging
 import os
-
 import boto3
 
 logger = logging.getLogger(__name__)
