@@ -2,17 +2,25 @@ version: 0.2
 
 env:
   variables:
-    TEST: "Hello world"
-
+    SAM_BUCKET: adriaplu-prod-bucket
 phases:
   install:
     runtime-versions:
       python: 3.7
     commands:
-      - echo $TEST
       - echo "Installing linting and styling packages"
       - pip install isort flake8 pylint
   build:
     commands:
       - isort src/api/*.py
       - flake8 src/api/
+      - echo "Running tests...""
+      - echo "TBC"
+  post_build:
+    commands:
+      - echo "Packaging SAM template"
+      - sam package --template-file /infra/template.yaml --s3-bucket $SAM_BUCKET --output-template-file packaged-template.yaml --parameter-overrides Env=staging
+artifacts:
+  files:
+    - packaged-template.yaml
+  name: PackagedSource
