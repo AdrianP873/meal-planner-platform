@@ -14,7 +14,7 @@ phases:
     commands:
       - isort src/api/*.py
       - flake8 src/api/
-      - echo "Running tests...""
+      - echo "Running tests..."
       - echo "TBC"
   post_build:
     commands:

@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Serverless application."
+Transform: AWS::Serverless-2016-10-31
+
+Parmameters:
+  Env:
+    Type: String
+    Description: Environment - staging or prod
+    Default: staging
+
+Resources:
+  mealsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey: 
+        Name: "meal"
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  MealsRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: MealsRestApi
+      EndpointConfiguration: REGIONAL
+      StageName: !Ref Env
+
+  mealCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: meal-create.handler
+      Runtime: python3.7
+      FunctionName: !Sub ${env}-meal-planner-create
+      CodeUri: /src/api/hello.py
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /meals
+            Method: get
+            RestApiId: !Ref MealsRestApi
+
+
+  mealReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: meal-read.handler
+      Runtime: python3.7
+      FunctionName: !Sub ${env}-meal-planner-create
+      CodeUri: /src/api/hello.py
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /meals
+            Method: post
+            RestApiId: !Ref MealsRestApi
