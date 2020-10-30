@@ -3,7 +3,7 @@ import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions'
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as sm from "@aws-cdk/aws-secretsmanager";
-import { BuildSpec, PipelineProject } from '@aws-cdk/aws-codebuild';
+import { BuildSpec, LinuxBuildImage, PipelineProject } from '@aws-cdk/aws-codebuild';
 import * as codestarconnections from '@aws-cdk/aws-codestarconnections';
 import { CfnConnection } from '@aws-cdk/aws-codestarconnections';
 import { profileEnd } from 'console';
@@ -29,16 +29,21 @@ export class PipelineAPI extends cdk.Stack {
         // Source action        
         const sourceAction = new codepipeline_actions.BitBucketSourceAction({
             actionName: "Source_GitHub",
-            owner: "aws",
-            repo: "AdrianP873/meal-planner-platform",
+            owner: "AdrianP873",
+            repo: "meal-planner-platform",
             output: sourceOutput,
-            connectionArn: codestarConnection.attrConnectionArn
+            connectionArn: codestarConnection.attrConnectionArn,
+            branch: this.node.tryGetContext("env")
         })
      
         // Build Project
-        const infraBuildProject = new PipelineProject(this, this.node.tryGetContext("env") + 'meal-planner-api-pipeline', {
+        const infraBuildProject = new PipelineProject(this, this.node.tryGetContext("env") + '-meal-planner-api-pipeline', {
             projectName: this.node.tryGetContext("env") + "-meal-planner-api-project",
-            buildSpec: BuildSpec.fromSourceFilename("buildspec.yml")
+            buildSpec: BuildSpec.fromSourceFilename("buildspec.yml"),
+            environment: {
+                buildImage: codebuild.LinuxBuildImage.STANDARD_4_0
+            }
+          
             });
 
         // Build action
