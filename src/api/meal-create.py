@@ -2,22 +2,24 @@
 Add a meal to the database.
 """
 
-import boto3
-import os
-import logging
 import json
+import logging
+import os
+
+import boto3
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 def handler(event, context):
     dynamodb = boto3.resource("dynamodb")
-    
+
     DYNAMODB_TABLE = os.getenv('MEAL_TABLE')
     meal_table = dynamodb.Table(DYNAMODB_TABLE)
 
     data = json.loads(event['body'])
-    
+
     payload = {
         "meal": data["meal"],
         "ingredients": data["ingredients"]
@@ -43,6 +45,3 @@ def handler(event, context):
         },
         "body": json.dumps(return_body)
     }
-    
-    
-    

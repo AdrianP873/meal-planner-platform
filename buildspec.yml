@@ -6,6 +6,13 @@ env:
 
 phases:
   install:
-   commands:
-     - echo $TEST
-     - echo "Second test"
+    runtime-versions:
+      python: 3.7
+    commands:
+      - echo "Installing linting and styling packages"
+      - pip install isort flake8 pylint
+  build:
+    commands:
+      - isort src/api/*.py
+      - flake8 src/api/
+      
