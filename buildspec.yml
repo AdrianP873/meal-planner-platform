@@ -16,4 +16,6 @@ phases:
     commands:
       - isort src/api/*.py
       - flake8 src/api/
+      - pylint src/api/*.py
+      - echo $TEST
       
