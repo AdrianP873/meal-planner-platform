@@ -9,6 +9,7 @@ phases:
     runtime-versions:
       python: 3.7
     commands:
+      - echo $TEST
       - echo "Installing linting and styling packages"
       - pip install isort flake8 pylint
   build:
