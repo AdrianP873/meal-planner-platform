@@ -47,7 +47,7 @@ Resources:
     Properties:
       Handler: meal-read.handler
       Runtime: python3.7
-      FunctionName: !Sub ${Env}-meal-planner-create
+      FunctionName: !Sub ${Env}-meal-planner-read
       CodeUri: ../src/api/meal-read.py
       Events:
         ApiEvent:
