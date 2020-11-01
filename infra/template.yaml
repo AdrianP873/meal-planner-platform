@@ -23,7 +23,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: MealsRestApi
-      EndpointConfiguration: REGIONAL
+      EndpointConfiguration: EDGE
       StageName: !Ref Env
 
   mealCreateFunction:
