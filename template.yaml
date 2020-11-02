@@ -40,9 +40,9 @@ Resources:
             Path: /meals
             Method: post
             RestApiId: !Ref MealsRestApi
-        Environment:
-          Variables:
-            MEAL_TABLE: !Ref mealsTable
+      Environment:
+        Variables:
+          MEAL_TABLE: !Ref mealsTable
 
   mealReadFunction:
     Type: AWS::Serverless::Function
@@ -58,9 +58,9 @@ Resources:
             Path: /meals
             Method: get
             RestApiId: !Ref MealsRestApi
-        Environment:
-          Variables:
-            MEAL_TABLE: !Ref mealsTable
+      Environment:
+        Variables:
+          MEAL_TABLE: !Ref mealsTable
 
   mealPlannerLambdaExecutionRole:
     Type: AWS::IAM::Role
