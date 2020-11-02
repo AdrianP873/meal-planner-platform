@@ -3,6 +3,8 @@ version: 0.2
 env:
   variables:
     SAM_BUCKET: staging-artifactbucket27548f83-a60562rpx83r
+    
+phases:
   install:
     runtime-versions:
       python: 3.7
