@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    SAM_BUCKET: staging-artifactbucket27548f83-a60562rpx83r
+    SAM_BUCKET: staging-artifactbucket27548f83-a60562rpx83r/staging_InfraPipelin/package
     
 phases:
   install:
