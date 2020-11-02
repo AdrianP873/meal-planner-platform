@@ -43,6 +43,9 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
+      #AutoPublishAlias: live
+      #DeploymentPreference:
+      #  Type: Canary10Percent5Minutes
 
   mealReadFunction:
     Type: AWS::Serverless::Function
@@ -61,6 +64,9 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
+      #AutoPublishAlias: live
+      #DeploymentPreference:
+      #  Type: Canary10Percent5Minutes
 
   mealPlannerLambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -78,7 +84,8 @@ Resources:
       Path: /
       Policies:
         - PolicyName: meal-planner-lambda-execution-policy
-          Version: 2012-10-17
+          PolicyDocument:
+            Version: 2012-10-17
           Statement:
             - Effect: Allow
               Action: 
