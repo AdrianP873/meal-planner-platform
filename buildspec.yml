@@ -22,5 +22,5 @@ phases:
       - aws cloudformation package --template-file ./infra/template.yaml --s3-bucket $SAM_BUCKET --output-template-file packaged-template.yaml
 artifacts:
   files:
-    - '**/*'''
+    - '**/*'
   name: cdkBuildOutput
