@@ -2,8 +2,7 @@ version: 0.2
 
 env:
   variables:
-    SAM_BUCKET: adriaplu-prod-bucket
-phases:
+    SAM_BUCKET: staging-artifactbucket27548f83-a60562rpx83r
   install:
     runtime-versions:
       python: 3.7
