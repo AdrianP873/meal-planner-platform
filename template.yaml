@@ -86,22 +86,22 @@ Resources:
         - PolicyName: meal-planner-lambda-execution-policy
           PolicyDocument:
             Version: 2012-10-17
-          Statement:
-            - Effect: Allow
-              Action: 
-                - logs:*
-              Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
-            - Effect: Allow
-              Action:
-                - logs:*
-              Resource:
-                - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*'
-            - Effect: Allow
-              Action:
-                - "dynamodb:GetItem"
-                - "dynamodb:PutItem"
-                - "dynamodb:Scan"
-              Resource: "*"
-            
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - logs:*
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*'
+              - Effect: Allow
+                Action:
+                  - "dynamodb:GetItem"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:Scan"
+                Resource: "*"
+              
 
     
