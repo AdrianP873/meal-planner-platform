@@ -38,9 +38,11 @@ Resources:
           Type: Api
           Properties:
             Path: /meals
-            Method: get
+            Method: post
             RestApiId: !Ref MealsRestApi
-
+        Environment:
+          Variables:
+            MEAL_TABLE: !Ref mealsTable
 
   mealReadFunction:
     Type: AWS::Serverless::Function
@@ -54,5 +56,45 @@ Resources:
           Type: Api
           Properties:
             Path: /meals
-            Method: post
+            Method: get
             RestApiId: !Ref MealsRestApi
+        Environment:
+          Variables:
+            MEAL_TABLE: !Ref mealsTable
+
+  mealPlannerLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: "Lambda execution role for the serverless meal planner application."
+      Path: /
+      Policies:
+        - PolicyName: meal-planner-lambda-execution-policy
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action: 
+                - logs:*
+              Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
+            - Effect: Allow
+              Action:
+                - logs:*
+              Resource:
+                - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*'
+            - Effect: Allow
+              Action:
+                - "dynamodb:GetItem"
+                - "dynamodb:PutItem"
+                - "dynamodb:Scan"
+              Resource: "*"
+            
+
+    
