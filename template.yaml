@@ -43,7 +43,7 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
-      Role: !Ref mealPlannerLambdaExecutionRole
+      Role: !GetAtt ["mealPlannerLambdaExecutionRole", "Arn"]
       #AutoPublishAlias: live
       #DeploymentPreference:
       #  Type: Canary10Percent5Minutes
@@ -65,7 +65,7 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
-      Role: !Ref mealPlannerLambdaExecutionRole
+      Role: !GetAtt ["mealPlannerLambdaExecutionRole", "Arn"]
       #AutoPublishAlias: live
       #DeploymentPreference:
       #  Type: Canary10Percent5Minutes
