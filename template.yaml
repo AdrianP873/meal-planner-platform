@@ -43,6 +43,7 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
+      Role: !Ref mealPlannerLambdaExecutionRole
       #AutoPublishAlias: live
       #DeploymentPreference:
       #  Type: Canary10Percent5Minutes
@@ -64,6 +65,7 @@ Resources:
       Environment:
         Variables:
           MEAL_TABLE: !Ref mealsTable
+      Role: !Ref mealPlannerLambdaExecutionRole
       #AutoPublishAlias: live
       #DeploymentPreference:
       #  Type: Canary10Percent5Minutes
