@@ -5,7 +5,7 @@
     "infra": "bin/infra.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project ./infra/tsconfig.json",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
@@ -29,6 +29,7 @@
     "@aws-cdk/aws-secretsmanager": "^1.70.0",
     "@aws-cdk/aws-ssm": "^1.70.0",
     "@aws-cdk/core": "1.71.0",
+    "cfn-lint": "^1.9.7",
     "source-map-support": "^0.5.16"
   }
 }
