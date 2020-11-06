@@ -121,7 +121,7 @@ export class PipelineAPI extends cdk.Stack {
       {
         projectName:
           this.node.tryGetContext("env") + "-meal-planner-api-project",
-        buildSpec: codebuild.BuildSpec.fromSourceFilename("buildspec.yml"),
+        buildSpec: codebuild.BuildSpec.fromSourceFilename("buildspec-package.yml"),
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
         },
