@@ -114,8 +114,30 @@ export class PipelineAPI extends cdk.Stack {
       branch: branch,
     });
 
-    // Build Project
-    const infraBuildProject = new codebuild.PipelineProject(
+    // Build Projects
+
+    const pipelineInfraBuildProject = new codebuild.PipelineProject(
+        this, this.node.tryGetContext("env") + "-meal-planner-infra-build",
+        {
+            projectName:
+              this.node.tryGetContext("env") + "-meal-planer-api-project",
+            buildSpec: codebuild.BuildSpec.fromSourceFilename("buildspec-pipeline-infra.yml"),
+            environment: {
+                buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
+            },
+            role: codeBuildServiceRole,
+        }
+    )
+
+    const pipelineInfraAction = new codepipelineActions.CodeBuildAction({
+        actionName: env + "Pipeline_Build",
+        project: pipelineInfraBuildProject,
+        input: sourceOutput,
+        role: codeBuildServiceRole
+    })
+
+    
+    const samBuildProject = new codebuild.PipelineProject(
       this,
       this.node.tryGetContext("env") + "-meal-planner-api-pipeline",
       {
@@ -133,7 +155,7 @@ export class PipelineAPI extends cdk.Stack {
     // Linting and SAM packaging
     const packagingAction = new codepipelineActions.CodeBuildAction({
       actionName: env + "_Package_SAM",
-      project: infraBuildProject,
+      project: samBuildProject,
       input: sourceOutput,
       outputs: [packageSamOutput],
       role: codeBuildServiceRole,
