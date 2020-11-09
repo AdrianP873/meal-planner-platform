@@ -1,10 +1,10 @@
 astroid==1.6.6
 backports.functools-lru-cache==1.6.1
+cfn-lint==0.40.0
 configparser==4.0.2
 contextlib2==0.6.0.post1
 enum34==1.1.10
 flake8==3.8.4
-functools32==3.2.3.post2
 futures==3.3.0
 importlib-metadata==2.0.0
 isort==4.3.21
