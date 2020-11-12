@@ -6,7 +6,7 @@ phases:
       nodejs: 10
     commands:
       - npm install prettier
-      - npm install eslint
+      - npm -g install eslint
   pre_build:
     commands:
       - echo "Testing pipeline code"
