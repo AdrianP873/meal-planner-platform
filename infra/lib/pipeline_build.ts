@@ -5,6 +5,7 @@ import * as codebuild from "@aws-cdk/aws-codebuild";
 import * as codestarconnections from "@aws-cdk/aws-codestarconnections";
 import * as iam from "@aws-cdk/aws-iam";
 import * as s3 from "@aws-cdk/aws-s3";
+import { type } from "os";
 
 export interface EnvProps {
   prod: boolean;
@@ -115,35 +116,42 @@ export class PipelineAPI extends cdk.Stack {
     });
 
     // Build Projects
-
     const pipelineInfraBuildProject = new codebuild.PipelineProject(
-        this, this.node.tryGetContext("env") + "-meal-planner-infra-build",
-        {
-            projectName:
-              this.node.tryGetContext("env") + "-meal-planer-api-project",
-            buildSpec: codebuild.BuildSpec.fromSourceFilename("buildspec-pipeline-infra.yml"),
-            environment: {
-                buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
-            },
-            role: codeBuildServiceRole,
-        }
-    )
+      this,
+      this.node.tryGetContext("env") + "-meal-planner-infra-build",
+      {
+        projectName:
+          this.node.tryGetContext("env") + "-meal-planer-api-project",
+        buildSpec: codebuild.BuildSpec.fromSourceFilename(
+          "buildspec-pipeline-infra.yml"
+        ),
+        environment: {
+          buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
+        },
+        role: codeBuildServiceRole,
+        environmentVariables: {
+          ENV: {
+            value: this.node.tryGetContext("env")}
+          }
+      }
+    );
 
     const pipelineInfraAction = new codepipelineActions.CodeBuildAction({
-        actionName: env + "Pipeline_Build",
-        project: pipelineInfraBuildProject,
-        input: sourceOutput,
-        role: codeBuildServiceRole
-    })
+      actionName: env + "pipeline_build",
+      project: pipelineInfraBuildProject,
+      input: sourceOutput,
+      role: codeBuildServiceRole,
+    });
 
-    
     const samBuildProject = new codebuild.PipelineProject(
       this,
       this.node.tryGetContext("env") + "-meal-planner-api-pipeline",
       {
         projectName:
           this.node.tryGetContext("env") + "-meal-planner-api-project",
-        buildSpec: codebuild.BuildSpec.fromSourceFilename("buildspec-package.yml"),
+        buildSpec: codebuild.BuildSpec.fromSourceFilename(
+          "buildspec-package.yml"
+        ),
         environment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_4_0,
         },
@@ -154,7 +162,7 @@ export class PipelineAPI extends cdk.Stack {
     // Build actions
     // Linting and SAM packaging
     const packagingAction = new codepipelineActions.CodeBuildAction({
-      actionName: env + "_Package_SAM",
+      actionName: env + "_package_SAM",
       project: samBuildProject,
       input: sourceOutput,
       outputs: [packageSamOutput],
@@ -168,7 +176,7 @@ export class PipelineAPI extends cdk.Stack {
 
     const deploySamChangeSetAction = new codepipelineActions.CloudFormationCreateReplaceChangeSetAction(
       {
-        actionName: env + "_Deploy_SAM_Changeset",
+        actionName: env + "_deploy_SAM_changeset",
         stackName: env + "-meal-planner-api",
         templatePath: cdkBuildOutput,
         adminPermissions: true,
@@ -183,7 +191,7 @@ export class PipelineAPI extends cdk.Stack {
 
     // Build the full pipeline
     const pipeline = new codepipeline.Pipeline(this, "InfraPipeline", {
-      pipelineName: this.node.tryGetContext("env") + "_InfraPipeline",
+      pipelineName: this.node.tryGetContext("env") + "_infra_pipeline",
       crossAccountKeys: false,
       artifactBucket: myBucket,
       role: codePipelineServiceRole,
@@ -195,7 +203,12 @@ export class PipelineAPI extends cdk.Stack {
     });
 
     pipeline.addStage({
-      stageName: "Packaging",
+      stageName: "TestInfra",
+      actions: [pipelineInfraAction]
+    })
+
+    pipeline.addStage({
+      stageName: "PackageApplication",
       actions: [packagingAction],
     });
 

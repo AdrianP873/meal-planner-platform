@@ -15,6 +15,6 @@ phases:
     commands:
       - npm run build
       - echo "Deploying staging pipeline"
-      - cdk deploy staging -c env=staging
+      - cdk deploy staging -c env=$ENV
 
     

@@ -1,15 +1,14 @@
 .PHONY: app_test pipeline_test
 
-app_test: py_test cfn_lint
-
 pipeline_test: # Test pipeline infrastructure
-	#npm run test
 	npx prettier --write ./infra/lib/*.ts
+	eslint -c .eslintrc.json infra/lib/pipeline_build.ts
 
 py_test: #Test lambda functions
 	isort src/api/*.py
 	flake8 src/api/
 	cfn-lint template.yaml
+	cfn-lint *.yml
 
 run_test:
 	npm run test
