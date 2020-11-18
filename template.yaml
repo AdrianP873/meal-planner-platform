@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Serverless application."
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Env:
+    Type: String
+    Description: Environment - staging or prod
+    Default: staging
+
+Resources:
+  mealsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey: 
+        Name: "meal"
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  MealsRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: MealsRestApi
+      EndpointConfiguration: EDGE
+      StageName: !Ref Env
+
+  mealCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: meal-create.handler
+      Runtime: python3.7
+      FunctionName: !Sub ${Env}-meal-planner-create
+      CodeUri: src/api/meal-create.py
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /meals
+            Method: post
+            RestApiId: !Ref MealsRestApi
+      Environment:
+        Variables:
+          MEAL_TABLE: !Ref mealsTable
+      Role: !GetAtt ["mealPlannerLambdaExecutionRole", "Arn"]
+      #AutoPublishAlias: live
+      #DeploymentPreference:
+      #  Type: Canary10Percent5Minutes
+
+  mealReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: meal-read.handler
+      Runtime: python3.7
+      FunctionName: !Sub ${Env}-meal-planner-read
+      CodeUri: src/api/meal-read.py
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /meals
+            Method: get
+            RestApiId: !Ref MealsRestApi
+      Environment:
+        Variables:
+          MEAL_TABLE: !Ref mealsTable
+      Role: !GetAtt ["mealPlannerLambdaExecutionRole", "Arn"]
+      #AutoPublishAlias: live
+      #DeploymentPreference:
+      #  Type: Canary10Percent5Minutes
+
+  mealPlannerLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: "Lambda execution role for the serverless meal planner application."
+      Path: /
+      Policies:
+        - PolicyName: meal-planner-lambda-execution-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - logs:*
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*'
+              - Effect: Allow
+                Action:
+                  - "dynamodb:GetItem"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:Scan"
+                Resource: "*"
+              
+
+    

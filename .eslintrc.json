@@ -1,0 +1,22 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "node": true      
+    },
+    "rules": {
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        "no-var": 0,
+        "comma-dangle": ["error", "always-multiline"],
+        "space-before-function-paren": ["error", "never"]
+    }
+}
+
+
+

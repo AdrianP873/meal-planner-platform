@@ -1,0 +1,45 @@
+{
+  "name": "infra",
+  "version": "0.1.0",
+  "prettier": {
+    "doubleQuote": true
+  },
+  "bin": {
+    "infra": "bin/infra.js"
+  },
+  "scripts": {
+    "build": "tsc --project ./infra/tsconfig.json",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.68.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "aws-cdk": "1.68.0",
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^26.4.2",
+    "prettier": "2.1.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^8.1.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-codebuild": "^1.71.0",
+    "@aws-cdk/aws-codepipeline": "^1.71.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.71.0",
+    "@aws-cdk/aws-codestarconnections": "^1.70.0",
+    "@aws-cdk/aws-iam": "^1.71.0",
+    "@aws-cdk/aws-ssm": "^1.70.0",
+    "@aws-cdk/core": "1.71.0",
+    "cfn-lint": "^1.9.7",
+    "source-map-support": "^0.5.16"
+  }
+}
