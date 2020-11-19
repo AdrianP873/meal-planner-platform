@@ -1,6 +1,6 @@
 .PHONY: app_test pipeline_test
 
-js-install: js-requirements
+js-install:
     npm install
 
 py-install:
