@@ -1,5 +1,11 @@
 .PHONY: app_test pipeline_test
 
+js-install: js-requirements
+    npm install
+
+py-install:
+	pip install -r requirements.txt
+
 pipeline_test: # Test pipeline infrastructure
 	npx prettier --write ./infra/lib/*.ts
 	./node_modules/eslint/bin/eslint.js -c .eslintrc.json infra/lib/pipeline_build.ts
