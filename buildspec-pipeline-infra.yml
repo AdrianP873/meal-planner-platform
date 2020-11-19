@@ -5,9 +5,11 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - npm install prettier
-      - npm -g install eslint
-      - npm install babel-eslint
+      - echo "Installing npm packages from package.json"
+      - npm install
+      #- npm install prettier
+      #- npm -g install eslint
+      #- npm install babel-eslint
   pre_build:
     commands:
       - echo "Testing pipeline code"
