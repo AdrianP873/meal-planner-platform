@@ -2,7 +2,7 @@
 
 pipeline_test: # Test pipeline infrastructure
 	npx prettier --write ./infra/lib/*.ts
-	eslint -c .eslintrc.json infra/lib/pipeline_build.ts
+	./node_modules/eslint/bin/eslint.js -c .eslintrc.json infra/lib/pipeline_build.ts
 
 py_test: #Test lambda functions
 	isort src/api/*.py

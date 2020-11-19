@@ -7,7 +7,6 @@ phases:
     commands:
       - echo "Installing npm packages from package.json"
       #- npm install prettier
-      - npm -g install eslint
       - npm install
       #- npm install babel-eslint
   pre_build:
