@@ -33,7 +33,7 @@ export class PipelineAPI extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         resources: ["*"],
-        actions: ["s3:*", "logs:*"],
+        actions: ["s3:*", "logs:*", "cloudformation:*"],
       })
     );
 
