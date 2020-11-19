@@ -2,7 +2,7 @@
 
 js-install:
 	npm install
-	
+
 py-install:
 	pip install -r requirements.txt
 
@@ -14,7 +14,8 @@ py_test: #Test lambda functions
 	isort src/api/*.py
 	flake8 src/api/
 	cfn-lint template.yaml
-	cfn-lint *.yml
+	yamllint -c .yamllint.yml *.yml
+	
 
 run_test:
 	npm run test
