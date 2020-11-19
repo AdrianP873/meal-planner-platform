@@ -22,7 +22,7 @@ run_test:
 
 sam_bucket := meal-planner-demo-bucket
 sam_package: #package sam application
-	sam package --template-file template.yaml --s3-bucket sam_bucket --output-template-file packaged-template.yaml
+	sam package --template-file template.yaml --s3-bucket ${sam_bucket} --output-template-file packaged-template.yaml
 
 
 
