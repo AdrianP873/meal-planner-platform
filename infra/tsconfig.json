@@ -22,5 +22,8 @@
   "exclude": [
     "cdk.out",
     "**/*.test.ts"
+  ],
+  "include": [
+    "lib/*.ts"
   ]
 }

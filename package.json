@@ -8,7 +8,8 @@
     "infra": "bin/infra.js"
   },
   "scripts": {
-    "build": "tsc --project ./infra/tsconfig.json",
+    "build-infra": "tsc --project ./infra/tsconfig.json",
+    "build-app": "tsc src/api/*.ts",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
