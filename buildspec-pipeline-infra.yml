@@ -17,6 +17,6 @@ phases:
       - make pipeline_test
   build:
     commands:
-      - npm run build
+      - npm run build-infra
       - echo "Deploying staging pipeline"
       - cdk deploy staging -c env=$ENV

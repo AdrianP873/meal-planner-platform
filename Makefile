@@ -16,7 +16,6 @@ py_test: #Test lambda functions
 	cfn-lint template.yaml
 	yamllint -c .yamllint.yml *.yml
 	
-
 run_test:
 	npm run test
 
