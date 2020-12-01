@@ -5,7 +5,7 @@ import * as codebuild from "@aws-cdk/aws-codebuild";
 import * as codestarconnections from "@aws-cdk/aws-codestarconnections";
 import * as iam from "@aws-cdk/aws-iam";
 import * as s3 from "@aws-cdk/aws-s3";
-
+import * as Aws from '@aws-cdk/core';
 
 export interface EnvProps {
   prod: boolean;
@@ -26,7 +26,8 @@ export class PipelineAPI extends cdk.Stack {
       {
         assumedBy: new iam.CompositePrincipal(
           new iam.ServicePrincipal("codepipeline.amazonaws.com"),
-          new iam.ServicePrincipal("codebuild.amazonaws.com")
+          new iam.ServicePrincipal("codebuild.amazonaws.com"),
+          new iam.AccountPrincipal(process.env.CDK_DEFAULT_ACCOUNT)
         ),
         description: "Service role for CodeBuild",
       }
@@ -39,8 +40,7 @@ export class PipelineAPI extends cdk.Stack {
         actions: [
           "s3:*",
           "logs:*",
-          "cloudformation:*",
-          "iam:*"],
+          "cloudformation:*"],
       })
     );
 
