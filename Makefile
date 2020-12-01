@@ -7,8 +7,8 @@ py-install:
 	pip install -r requirements.txt
 
 pipeline_test: # Test pipeline infrastructure
-	npx prettier --write ./infra/lib/*.ts
-	./node_modules/eslint/bin/eslint.js -c .eslintrc.json infra/lib/pipeline_build.ts
+	npx prettier --write ./infra/src/lib/*.ts
+	./node_modules/eslint/bin/eslint.js -c .eslintrc.json infra/src/lib/pipeline_build.ts
 
 py_test: #Test lambda functions
 	isort src/api/*.py
