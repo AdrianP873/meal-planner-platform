@@ -5,6 +5,5 @@ import { EnvProps, PipelineAPI } from '../src/lib/pipeline_build';
 
 const app = new cdk.App();
 
-
 //new InfraStack(app, 'InfraStack');
 new PipelineAPI(app, 'staging');
