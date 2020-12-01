@@ -19,4 +19,4 @@ phases:
     commands:
       - npm run build-infra
       - echo "Deploying staging pipeline"
-      - cdk deploy staging -c env=$ENV
+      - cdk deploy staging -c env=$ENV --require-approval=never
