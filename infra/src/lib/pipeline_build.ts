@@ -36,7 +36,11 @@ export class PipelineAPI extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         resources: ["*"],
-        actions: ["s3:*", "logs:*", "cloudformation:*"],
+        actions: [
+          "s3:*",
+          "logs:*",
+          "cloudformation:*",
+          "iam:*"],
       })
     );
 
@@ -94,7 +98,7 @@ export class PipelineAPI extends cdk.Stack {
       this,
       "github-connection-" + env,
       {
-        connectionName: "meal-planner-github-connector-" + env,
+        connectionName: "github-connector-" + env,
         providerType: "GitHub",
       }
     );
