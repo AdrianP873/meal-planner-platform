@@ -5,7 +5,6 @@ import * as codebuild from "@aws-cdk/aws-codebuild";
 import * as codestarconnections from "@aws-cdk/aws-codestarconnections";
 import * as iam from "@aws-cdk/aws-iam";
 import * as s3 from "@aws-cdk/aws-s3";
-import { type } from "os";
 
 export interface EnvProps {
   prod: boolean;
@@ -34,7 +33,7 @@ export class PipelineAPI extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         resources: ["*"],
-        actions: ["s3:*", "logs:*"],
+        actions: ["s3:*", "logs:*", "cloudformation:*"],
       })
     );
 
@@ -130,9 +129,8 @@ export class PipelineAPI extends cdk.Stack {
         },
         role: codeBuildServiceRole,
         environmentVariables: {
-          ENV: {
-            value: this.node.tryGetContext("env")}
-          }
+          ENV: { value: this.node.tryGetContext("env") },
+        },
       }
     );
 
@@ -204,8 +202,8 @@ export class PipelineAPI extends cdk.Stack {
 
     pipeline.addStage({
       stageName: "TestInfra",
-      actions: [pipelineInfraAction]
-    })
+      actions: [pipelineInfraAction],
+    });
 
     pipeline.addStage({
       stageName: "PackageApplication",

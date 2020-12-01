@@ -5,8 +5,12 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - npm install prettier
-      - npm -g install eslint
+      - echo "Installing npm packages from package.json"
+      - npm install -g aws-cdk
+      - cdk --version
+      - make js-install
+      # - npm install prettier
+      # - npm install babel-eslint
   pre_build:
     commands:
       - echo "Testing pipeline code"
@@ -16,5 +20,3 @@ phases:
       - npm run build
       - echo "Deploying staging pipeline"
       - cdk deploy staging -c env=$ENV
-
-    
