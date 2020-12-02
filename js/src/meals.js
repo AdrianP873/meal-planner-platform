@@ -23,7 +23,7 @@ function appendData(data) {
     var test = document.getElementById("meals")
     while (main_container.hasChildNodes()) {
         main_container.removeChild(main_container.lastChild);
-    }
+    }  
 
     for (var i = 0; i < data.length; i++) {
         var div = document.createElement("div");
@@ -34,13 +34,14 @@ function appendData(data) {
 
 function addInput() {
     // Creates text inputs based on number of ingredients entered by user.
+    const maxIngredients = 16;
     var getMealName = document.getElementById("mealName").value;
     data.meal = getMealName
     console.log(data)
     
     // Dynamically adds text inputs depending on how many ingredients there are
     var getNumber = document.getElementById("ingredients").value;
-    if (getNumber < 16) {
+    if (getNumber < maxIngredients) {
         var number = getNumber;
     } else {
         alert('Too many ingredients');
