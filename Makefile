@@ -11,8 +11,8 @@ pipeline_test: # Test pipeline infrastructure
 	./node_modules/eslint/bin/eslint.js -c .eslintrc.json infra/src/lib/pipeline_build.ts
 
 py_test: #Test lambda functions
-	isort src/api/*.py
-	flake8 src/api/
+	isort api/src/*.py
+	flake8 api/src/
 	cfn-lint template.yaml
 	yamllint -c .yamllint.yml *.yml
 	

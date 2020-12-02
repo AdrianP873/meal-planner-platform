@@ -9,8 +9,6 @@ phases:
       - npm install -g aws-cdk
       - cdk --version
       - make js-install
-      # - npm install prettier
-      # - npm install babel-eslint
   pre_build:
     commands:
       - echo "Testing pipeline code"
