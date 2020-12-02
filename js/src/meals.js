@@ -2,7 +2,7 @@
 var ingredientObj = {};
 var data = {};
 
-const url = "<APIGateway URL>"
+const url = "https://79dnw6ln5b.execute-api.ap-southeast-2.amazonaws.com/staging/meals"
 
 function getMeals() {
     // // Send GET request to /meals API to retrieve all meals
@@ -27,8 +27,12 @@ function appendData(data) {
 
     for (var i = 0; i < data.length; i++) {
         var div = document.createElement("div");
-        div.innerHTML = "<pre>" + "Meal: " + data[i].meal  + "<br />" + " Ingredients: " + Object.keys(data[i].ingredients) +  ": " + Object.values(data[i].ingredients) + "</pre>";                
+        var div2 = document.createElement("div")
+       // div.innerHTML = "<pre>" + "Meal: " + data[i].meal  + "<br />" + " Ingredients: " + Object.keys(data[i].ingredients) +  ": " + Object.values(data[i].ingredients) + "</pre>"; 
+        div.innerHTML = ["Meal: ", data[i].meal].join("\n")
+        div2.innerHTML = ["Ingredients: ", Object.keys(data[i].ingredients), ": ", Object.values(data[i].ingredients)].join("\n")
         main_container.appendChild(div);
+        main_container.appendChild(div2);
     }
 }  
 
