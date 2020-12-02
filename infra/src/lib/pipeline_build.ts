@@ -6,6 +6,7 @@ import * as codestarconnections from "@aws-cdk/aws-codestarconnections";
 import * as iam from "@aws-cdk/aws-iam";
 import * as s3 from "@aws-cdk/aws-s3";
 import * as Aws from '@aws-cdk/core';
+import { CfnOutput } from "@aws-cdk/core";
 
 export interface EnvProps {
   prod: boolean;
@@ -192,7 +193,7 @@ export class PipelineAPI extends cdk.Stack {
 
     // Build the full pipeline
     const pipeline = new codepipeline.Pipeline(this, "InfraPipeline", {
-      pipelineName: "infra_pipeline_" + env,
+      pipelineName: "meal_planner_platform_pipeline_" + env,
       crossAccountKeys: false,
       artifactBucket: myBucket,
       role: codePipelineServiceRole,

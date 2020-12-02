@@ -104,6 +104,13 @@ Resources:
                   - "dynamodb:PutItem"
                   - "dynamodb:Scan"
                 Resource: "*"
+
+Outputs:
+  ApiInvocationEndpoint:
+    Description: !Sub "API ${Env} endpoint"
+    Value: !Sub "https://${MealsRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Env}"
+    Export:
+      Name: !Sub "meal-planner-api-${Env}"
               
 
     
