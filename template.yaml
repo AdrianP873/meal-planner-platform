@@ -107,7 +107,7 @@ Resources:
 
 Outputs:
   ApiInvocationEndpoint:
-    Description: !Sub "API ${Env} endpoint"
+    Description: "API endpoint"
     Value: !Sub "https://${MealsRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Env}"
     Export:
       Name: !Sub "meal-planner-api-${Env}"
