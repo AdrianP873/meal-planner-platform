@@ -32,7 +32,7 @@ Resources:
       Handler: meal-create.handler
       Runtime: python3.7
       FunctionName: !Sub ${Env}-meal-planner-create
-      CodeUri: src/api/meal-create.py
+      CodeUri: api/src/meal-create.py
       Events:
         ApiEvent:
           Type: Api
@@ -54,7 +54,7 @@ Resources:
       Handler: meal-read.handler
       Runtime: python3.7
       FunctionName: !Sub ${Env}-meal-planner-read
-      CodeUri: src/api/meal-read.py
+      CodeUri: api/src/meal-read.py
       Events:
         ApiEvent:
           Type: Api
@@ -104,6 +104,13 @@ Resources:
                   - "dynamodb:PutItem"
                   - "dynamodb:Scan"
                 Resource: "*"
+
+Outputs:
+  ApiInvocationEndpoint:
+    Description: "API endpoint"
+    Value: !Sub "https://${MealsRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Env}"
+    Export:
+      Name: !Sub "meal-planner-api-${Env}"
               
 
     
