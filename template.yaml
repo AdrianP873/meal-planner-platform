@@ -82,7 +82,7 @@ Resources:
           Type: Schedule
           Properties:
             Name: WeeklyNotificationSchedule
-            Schedule: 'cron(0 9 * * SUN *)'
+            Schedule: 'cron(0 9 ? * SUN *)'
             Description: "Sends a shopping list notification once a week."
             Enabled: False
       Layers:
