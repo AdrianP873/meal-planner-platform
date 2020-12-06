@@ -8,26 +8,6 @@ Parameters:
     Description: Environment - staging or prod
     Default: staging
 
-  TwilioAccountSid:
-    Type: String
-    Description: Twilio account SID
-    NoEcho: true
-
-  TwilioAuthToken:
-    Type: String
-    Description: Twilio auth token
-    NoEcho: true
-
-  TwilioPhone:
-    Type: String
-    Description: Twilio phone number
-    NoEcho: true
-
-  CustomerPhone:
-    Type: String
-    Description: Customer phone number
-    NoEcho: true
-
 Resources:
   mealsTable:
     Type: AWS::Serverless::SimpleTable
