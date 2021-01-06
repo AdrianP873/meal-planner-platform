@@ -19,6 +19,11 @@ py_test: #Test lambda functions
 run_test:
 	npm run test
 
+build-mealNotificationsLayer:
+	mkdir -p "$(ARTIFACTS_DIR)/python"
+	cp api/src/meal-send-notification.py "$(ARTIFACTS_DIR)/python"
+	python -m pip install -r ./api/src/requirements.txt -t "$(ARTIFACTS_DIR)/python"
+
 sam_bucket := meal-planner-demo-bucket
 sam_package: #package sam application
 	sam package --template-file template.yaml --s3-bucket ${sam_bucket} --output-template-file packaged-template.yaml

@@ -30,7 +30,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: meal-create.handler
-      Runtime: python3.7
+      Runtime: python3.8
       FunctionName: !Sub ${Env}-meal-planner-create
       CodeUri: api/src/meal-create.py
       Events:
@@ -52,7 +52,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: meal-read.handler
-      Runtime: python3.7
+      Runtime: python3.8
       FunctionName: !Sub ${Env}-meal-planner-read
       CodeUri: api/src/meal-read.py
       Events:
@@ -69,6 +69,42 @@ Resources:
       #AutoPublishAlias: live
       #DeploymentPreference:
       #  Type: Canary10Percent5Minutes
+
+  mealNotificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: meal-send-notification.handler
+      Runtime: python3.8
+      FunctionName: !Sub ${Env}-meal-notifications
+      CodeUri: api/src/meal-send-notification.py
+      Events:
+        CWSchedule:
+          Type: Schedule
+          Properties:
+            Name: WeeklyNotificationSchedule
+            Schedule: 'cron(0 9 ? * SUN *)'
+            Description: "Sends a shopping list notification once a week."
+            Enabled: False
+      Layers:
+        - Ref: mealNotificationsLayer
+      Environment:
+        Variables:
+          MEAL_TABLE: !Ref mealsTable
+          TWILIO_ACCOUNT_SID: '{{resolve:secretsmanager:/mealPlanner/TwilioAccountSid:SecretString:twilioAccountSid}}'
+          TWILIO_AUTH_TOKEN: '{{resolve:secretsmanager:/mealPlanner/TwilioAuthToken:SecretString:twilioAuthToken}}'
+          TWILIO_PHONE: '{{resolve:secretsmanager:/mealPlanner/TwilioPhone:SecretString:twilioPhone}}'
+          CUSTOMER_PHONE: '{{resolve:secretsmanager:/mealPlanner/TwilioCustomerPhone:SecretString:twilioCustomerPhone}}'
+      Role: !GetAtt ["mealPlannerLambdaExecutionRole", "Arn"]
+      Timeout: 15
+
+  mealNotificationsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: api/src
+      CompatibleRuntimes:
+        - python3.8
+    Metadata:
+      BuildMethod: makefile
 
   mealPlannerLambdaExecutionRole:
     Type: AWS::IAM::Role

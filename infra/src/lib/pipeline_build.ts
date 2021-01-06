@@ -63,6 +63,7 @@ export class PipelineAPI extends cdk.Stack {
           "iam:*",
           "lambda:*",
           "s3:*",
+          "secretsmanager:*"
         ],
       })
     );

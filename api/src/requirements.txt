@@ -1,0 +1,15 @@
+certifi==2020.11.8
+cffi==1.14.4
+chardet==3.0.4
+cryptography==3.2.1
+enum34==1.1.10
+idna==2.10
+ipaddress==1.0.23
+pycparser==2.20
+PyJWT==1.7.1
+pyOpenSSL==20.0.0
+pytz==2020.4
+requests==2.25.0
+six==1.15.0
+twilio==6.49.0
+urllib3==1.26.2
